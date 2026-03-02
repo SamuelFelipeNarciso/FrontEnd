@@ -1,35 +1,113 @@
 <!DOCTYPE html>
-<html lang="pt-BR>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Comandos de String em C</title>
 
-	<head>
-		<meta chaset="UTF-8">
-		<meta name="viewport" content="widt=device-width, initial-scale=1.0">
+    <style>
+	body {
+            text-align: center;
+            font-family: sans-serif;
+            background-color: #eeeeee;
+        }
 
-		<title> Comandos de C </title>
+        .head {
+            background-color: black;
+            color: #fff;
+            padding: 20px;
+        }
 
-		<style>
-		
-		</style>		
-
-	</head>
+        .caixa-exemplo {
+            background-color: white;
+            color: #FF0000;
+            border: 1px solid gray;
+            padding: 10px;
+            font-family: monospace;
+            margin: 10px;
+        }
 	
-	<body>
-		<div class=head>
-			<h1>Comandos em C e o que eles fazem</h1>
-			<p>Mostrarei aulguns comandos que podem ser usados em C e oque eles fazem</p>
+    </style>
 
-			<a href="#printf" target="_self">printf</a>
-			
-		</div>
+</head>
+<body>
+    
+    <div class="head">
+        <h1>Comandos de String em C</h1>
+        <p>Aqui você verá alguns comandos de string para usar em C</p>
 
-		<div id="printf">
-			<h3>printf</h3>
-			<p>O <strong>printf</strong> é o comando que mostra a informação pro usuario</p>
-			<p>Exemplo: prinf("Ola Mundo");</p>
-			
-		</div>
-		
-	</body>
+    </div>
+
+    <div id="strlen">
+        <h3>strlen</h3>
+        <p>Retorna o tamanho da string (quantidade de letras), sem contar o caractere final \0.</p>
+
+    </div>
+
+    <div class="caixa-exemplo">
+        <p>int tam = strlen("Samuel"); // O resultado é 6</p>
+
+
+    </div>
+
+    <div id="strcpy">
+        <h3>strcpy</h3>
+        <p>Copia o conteúdo de uma string para outra (origem para destino).</p>
+
+    </div>
+
+    <div class="caixa-exemplo">
+        <p>strcpy(destino, "Ola"); // A variável destino recebe o texto "Ola"</p>
+
+
+    </div>
+
+    <div id="strcat">
+        <h3>strcat</h3>
+        <p>Junta (concatena) duas strings, colocando a segunda ao final da primeira.</p>
+
+    </div>
+
+    <div class="caixa-exemplo">
+        <p>strcat(txt, " Mundo"); // Se txt era "Ola", vira "Ola Mundo"</p>
+
+
+    </div>
+
+    <div id="strcmp">
+        <h3>strcmp</h3>
+        <p>Compara duas strings. Se elas forem exatamente iguais, o resultado é 0.</p>
+
+    </div>
+
+    <div class="caixa-exemplo">
+        <p>if (strcmp(s1, s2) == 0) { // Indica que são iguais }</p>
+
+
+    </div>
+
+    <div id="strchr">
+        <h3>strchr</h3>
+        <p>Localiza a primeira ocorrência de um caractere específico em uma string.</p>
+
+    </div>
+
+    <div class="caixa-exemplo">
+        <p>char *posicao = strchr(nome, 'a'); // Procura a letra 'a' dentro de nome</p>
+
+
+    </div>
+
+    <div id="strcspn">
+        <h3>strcspn</h3>
+        <p>É muito usado para remover o \n (Enter) que o comando fgets deixa no final da string.</p>
+        
+    </div>
+
+    <div class="caixa-exemplo">
+        <p>nome[strcspn(nome, "\n")] = '\0'; // Localiza o \n e troca pelo fim da string \0</p>
+
+
+    </div>
+
+</body>
 </html>
-
-
