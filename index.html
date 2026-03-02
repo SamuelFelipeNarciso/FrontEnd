@@ -12,19 +12,37 @@
         }
 
         .head {
-            background-color: black;
+            background-color: #000;
             color: #fff;
             padding: 20px;
         }
 
         .caixa-exemplo {
-            background-color: white;
+            background-color: #fff;
             color: #FF0000;
             border: 1px solid gray;
             padding: 10px;
             font-family: monospace;
             margin: 10px;
         }
+
+	.caixa-questionario {
+    		background-color: #fff;
+    		border: 1px solid gray;
+    		padding: 20px;
+    		margin: 10px;
+    		display: inline-block;
+    		text-align: left;
+	}
+
+	.btn-visual {
+    		background-color: black;
+    		color: white;
+    		border: none;
+   		padding: 10px;
+   		width: 100%;
+    		font-family: sans-serif;
+}
 	
     </style>
 
@@ -107,6 +125,22 @@
         <p>nome[strcspn(nome, "\n")] = '\0'; // Localiza o \n e troca pelo fim da string \0</p>
 
 
+    </div>
+
+    <div class="caixa-questionario">
+        <form>
+            <p>Este site ajudou você a entender os comandos?</p>
+            <input type="radio" id="s" name="ajuda"><label for="s"> Sim</label><br>
+            <input type="radio" id="n" name="ajuda"><label for="n"> Não</label>
+            
+            <p>Comentário:</p>
+            <textarea name="msg" rows="3" style="width: 90%;"></textarea>
+            <br><br>
+            <button type="button" class="btn-visual">Enviar Feedback </button><br>
+	    
+	    <p> fetito por Samuel Felipe Narciso</p>
+					
+        </form>
     </div>
 
 </body>
