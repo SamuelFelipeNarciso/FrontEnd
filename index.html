@@ -2,47 +2,69 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Comandos de String em C</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comandos de C</title>
 
     <style>
-	body {
-            text-align: center;
-            font-family: sans-serif;
-            background-color: #eeeeee;
-        }
-
-        .head {
-            background-color: #000;
-            color: #fff;
-            padding: 20px;
-        }
-
-        .caixa-exemplo {
-            background-color: #fff;
-            color: #FF0000;
-            border: 1px solid gray;
-            padding: 10px;
-            font-family: monospace;
-            margin: 10px;
-        }
+	.head{
+		background-color: #000;
+		color: #fff;
+		text-align: center;
+		padding: 20px;
+		margin: 5px;
+		border-radius: 20px;
+		font-family: Arial, Helvetica, sans-serif;
+		border: 5px solid #333333;
+	}
+	
+	body{
+		text-align: center;
+		background-color: #f2f2f2;
+		padding: 12px 14px;
+		border: 5px solid #333333;
+		border-radius: 20px;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	
+	.caixa-exemplo{
+		background-color: #fff;
+		padding: 6px 10px;
+		border: 5px solid #333333;
+		border-radius: 20px;
+		color: red;
+		width: 700px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 
 	.caixa-questionario {
     		background-color: #fff;
-    		border: 1px solid gray;
+    		border: 1px solid #333;
+		border-radius: 10px;
     		padding: 20px;
-    		margin: 10px;
-    		display: inline-block;
-    		text-align: left;
+    		width: 500px;
+   		margin: 50px auto;
+    		font-family: Arial, sans-serif;
+    		font-size: 14px;
+	}
+
+	textarea {
+   		width: 100%;
+    		border: 1px solid #ccc;
+    		box-sizing: border-box;
+    		margin-top: 5px;
 	}
 
 	.btn-visual {
-    		background-color: black;
+    		background-color: #333;
     		color: white;
     		border: none;
-   		padding: 10px;
-   		width: 100%;
-    		font-family: sans-serif;
-}
+    		padding: 10px;
+    		width: 100%;
+    		cursor: pointer;
+    		border-radius: 5px;
+	}
+
 	
     </style>
 
@@ -50,8 +72,8 @@
 <body>
     
     <div class="head">
-        <h1>Comandos de String em C</h1>
-        <p>Aqui você verá alguns comandos de string para usar em C</p>
+        <h1>Comandos de C</h1>
+        <p>Aqui você verá alguns comandos de C</p>
 
     </div>
 
@@ -59,13 +81,16 @@
         <h3>strlen</h3>
         <p>Retorna o tamanho da string (quantidade de letras), sem contar o caractere final \0.</p>
 
+
+  	 <div class="caixa-exemplo">
+        	<p>int tam = strlen("Samuel"); // O resultado é 6</p>
+
+
+    	</div>
+
     </div>
 
-    <div class="caixa-exemplo">
-        <p>int tam = strlen("Samuel"); // O resultado é 6</p>
-
-
-    </div>
+ 
 
     <div id="strcpy">
         <h3>strcpy</h3>
@@ -127,6 +152,83 @@
 
     </div>
 
+    <div id="printf">
+	<h3>printf</h3>
+        <p>Mostra informações na tela.</p>
+
+        <div class="caixa-exemplo">
+            <p>printf("Olá mundo!");</p>
+
+        </div>
+
+    </div>
+
+    <div id="scanf">
+        <h3>scanf</h3>
+        <p>Lê dados formatados do teclado (como números inteiros ou decimais).</p>
+
+        <div class="caixa-exemplo">
+            <p>scanf("%d", &idade); // O & é necessário para variáveis simples</p>
+
+        </div>
+
+    </div>
+
+    <div id="fgets">
+        <h3>fgets</h3>
+        <p>Lê uma string do teclado de forma segura.</p>
+
+        <div class="caixa-exemplo">
+            <p>fgets(nome, 50, stdin);</p>
+
+        </div>
+
+    </div>
+
+    <div id="if-else">
+        <h3>if / else</h3>
+        <p>Estrutura de decisão: executa um bloco se a condição for verdadeira, ou outro se for falsa.</p>
+
+        <div class="caixa-exemplo">
+            <p>if(idade >= 18) { printf("Maior"); } else { printf("Menor"); }</p>
+
+        </div>
+
+    </div>
+
+    <div id="for">
+        <h3>for</h3>
+        <p>Estrutura de repetição usada quando se sabe o número de vezes que vai repetir.</p>
+
+        <div class="caixa-exemplo">
+            <p>for(int i=0; i < 10; i++) { printf("%d", i); }</p>
+
+        </div>
+
+    </div>
+
+    <div id="while">
+        <h3>while</h3>
+        <p>Repete um bloco enquanto uma condição for verdadeira.</p>
+
+        <div class="caixa-exemplo">
+            <p>while(condicao == 1) { // faz algo }</p>
+
+        </div>
+
+    </div>
+
+    <div id="do-while">
+        <h3>do while</h3>
+        <p>Semelhante ao while, mas garante que o código seja executado pelo menos uma vez.</p>
+
+        <div class="caixa-exemplo">
+            <p>do { // executa primeiro } while(condicao);</p>
+
+        </div>
+
+    </div>
+
     <div class="caixa-questionario">
         <form>
             <p>Este site ajudou você a entender os comandos?</p>
@@ -138,7 +240,7 @@
             <br><br>
             <button type="button" class="btn-visual">Enviar Feedback </button><br>
 	    
-	    <p> fetito por Samuel Felipe Narciso</p>
+	    <p> feito por Samuel Felipe Narciso</p>
 					
         </form>
     </div>
