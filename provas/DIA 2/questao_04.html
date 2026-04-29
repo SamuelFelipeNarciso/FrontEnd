@@ -26,26 +26,44 @@
 
         }
 
-        .card {
-            backdrop-filter: blur(5px);
-            background-color: rgba(255, 255, 255, 0.9);
-            border: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
+       .card {
+    	   display: flex;
+    	   flex-direction: column; 
+    	   width: 22rem;
+   	   backdrop-filter: blur(5px);
+   	   background-color: rgba(255, 255, 255, 0.9);
+    	   border: none;
+    	   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+	}
 
-        #Cards {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
+	#Cards {
+    	   display: flex;
+    	   flex-wrap: wrap;
+    	   justify-content: center;
+    	   gap: 20px;
+    	   align-items: stretch; 
+	}
 
         .card-img-top {
-            height: 320px;
-            object-fit: cover;
-            object-position: top;
+           height: 320px;
+           object-fit: cover;
+           object-position: top;
         }
+	.card-title {
+    	   display: flex;
+    	   justify-content: space-between;
+    	   align-items: center; 
+    	   margin-bottom: 15px; 
+	}
+	.card-body {
+    	   flex-grow: 1; 
+   	   display: flex;
+    	   flex-direction: column;
+    	   padding: 1.25rem; 
+	}
+	.card-text {
+    	   margin-top: 0; 
+	}
     </style>
 </head>
 
