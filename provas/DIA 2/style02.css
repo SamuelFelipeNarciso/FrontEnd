@@ -1,0 +1,78 @@
+ body {
+
+            background-color: aliceblue;
+            font-family: sans-serif;
+
+        }
+
+        .cartao-grupo {
+
+
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+
+        }
+
+        h3 {
+
+            font-size: 28px;
+            font-weight: bold;
+            color: rgb(255, 98, 1);
+
+        }
+
+        nav {
+
+            text-align: center;
+            background: rgb(255, 98, 1);
+            padding: 15px;
+
+        }
+
+        nav a {
+
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 20px;
+
+        }
+
+        p {
+
+            color: gray;
+            line-height: 1.5;
+
+        }
+
+        .area-botao {
+
+            text-align: center;
+            margin: 40px 0;
+            clear: both;
+
+        }
+
+        #btn-proximo {
+
+            background-color: rgb(255, 98, 1);
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            font-weight: bold;
+
+        }
+
+        #btn-proximo:hover {
+
+            background-color: rgb(255, 98, 1);
+
+
+        }
