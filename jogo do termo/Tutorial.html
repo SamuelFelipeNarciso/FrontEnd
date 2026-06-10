@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Desenvolvendo o Termo – React</title>
+    <style>
+        /* ==========================================================================
+           ESTILOS DO LAYOUT DA DOCUMENTAÇÃO DO REACT (REACT.DEV)
+           ========================================================================== */
+        :root {
+            --bg-docs: #f6f7f9;
+            --bg-card: #ffffff;
+            --text-primary: #23272f;
+            --text-secondary: #404756;
+            --react-blue: #149eca;
+            --border-color: #ebedf0;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --callout-bg: #e6f7ff;
+            --callout-border: #91d5ff;
+            
+            /* Cores do Jogo */
+            --brand-green: #3aa394;
+            --brand-yellow: #d3ad69;
+            --brand-gray: #3a3a3c;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-docs: #1c1c1e;
+                --bg-card: #2c2c2e;
+                --text-primary: #f5f5f7;
+                --text-secondary: #aeaeaf;
+                --border-color: #3a3a3c;
+                --code-bg: #000000;
+                --callout-bg: #132d3e;
+                --callout-border: #149eca;
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-docs);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Menu Lateral */
+        nav {
+            width: 280px;
+            background-color: var(--bg-docs);
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        nav h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav li {
+            margin-bottom: 8px;
+        }
+
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+
+        nav a:hover {
+            background-color: var(--border-color);
+        }
+
+        nav a.active {
+            color: var(--react-blue);
+            background-color: rgba(20, 158, 202, 0.1);
+            font-weight: 600;
+        }
+
+        /* Conteúdo Principal */
+        main {
+            margin-left: 280px;
+            max-width: 800px;
+            padding: 40px 60px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-top: 30px;
+        }
+
+        p, li {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+        }
+
+        /* Callouts / Avisos */
+        .callout {
+            background-color: var(--callout-bg);
+            border-left: 4px solid var(--callout-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 25px 0;
+        }
+
+        .callout h4 {
+            margin: 0 0 8px 0;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        /* Blocos de Código */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, "Andale Mono", monospace;
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+
+        code {
+            font-family: Consolas, Monaco, monospace;
+            background-color: var(--border-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .kw { color: #f43f5e; } 
+        .fn { color: #3b82f6; } 
+        .str { color: #10b981; } 
+        .cm { color: #71717a; } 
+
+        /* ==========================================================================
+           DIAGRAMAS IMAGENS (CSS ARTWORK)
+           ========================================================================== */
+        .diagram-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .diagram-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Diagrama 1: Fluxo de Dados */
+        .flow-box {
+            background: var(--bg-docs);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 6px;
+            width: 220px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .flow-arrow {
+            color: var(--react-blue);
+            font-weight: bold;
+            margin: 4px 0;
+        }
+
+        /* Diagrama 2: Grid de Tiles */
+        .tiles-showcase {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+        }
+        .tile-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .tile-box {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 4px;
+        }
+
+        /* Diagrama 3: Mapeamento de String */
+        .map-grid {
+            display: flex;
+            gap: 8px;
+        }
+        .map-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+        }
+        .map-square {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        /* Diagrama 4: Matriz do Tabuleiro */
+        .matrix-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .matrix-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .matrix-desc {
+            font-size: 0.8rem;
+            width: 120px;
+            text-align: right;
+            color: var(--text-secondary);
+        }
+        .matrix-cells {
+            display: flex;
+            gap: 4px;
+        }
+        .matrix-cell {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-docs);
+        }
+
+        /* Diagrama 5: Anatomia CSS */
+        .css-anatomy {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-family: monospace;
+            background: var(--bg-docs);
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: 1px dashed var(--react-blue);
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            main { margin-left: 0; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h3>Aprender React</h3>
+        <ul>
+            <li><a href="#instalacao">Instalação</a></li>
+            <li><a href="#tutorial" class="active">Tutorial: Termo</a></li>
+            <ul>
+                <li><a href="#interface">&rarr; 1. Construindo a UI</a></li>
+                <li><a href="#estado">&rarr; 2. Elevando o Estado</a></li>
+                <li><a href="#interacoes">&rarr; 3. Eventos Globais</a></li>
+                <li><a href="#validacao">&rarr; 4. Algoritmo Final</a></li>
+                <li><a href="#css">&rarr; 5. Estilização Reativa</a></li>
+            </ul>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Tutorial: Termo (Wordle)</h1>
+        <p class="subtitle">Este guia prático ensinará os fundamentos do React construindo uma versão real do jogo Termo.</p>
+
+        <p>Neste tutorial, construiremos um clone interativo do famoso jogo de adivinhação de palavras. Através deste projeto, você verá na prática como planejar componentes organizados, gerenciar estados de matrizes e capturar inputs globais de periféricos.</p>
+
+        <div class="callout">
+            <h4>O que você vai aprender:</h4>
+            <p style="margin: 0;">Você vai entender a fundo o conceito de <strong>Elevação de Estado (Lifting State Up)</strong> e como o Hook <code>useEffect</code> sincroniza sua aplicação com eventos nativos do navegador.</p>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;">
+
+        <h2 id="interface">1. Construindo a Interface (UI)</h2>
+        <p>A interface do Termo é essencialmente uma matriz estrutural. Diferente de elementos dinâmicos isolados, o tabuleiro necessita de uma hierarquia rígida dividida em três níveis:</p>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Diagrama 1: Fluxo de Dados Unidirecional no React</div>
+            <div class="flow-box" style="border-color: var(--react-blue);">Game.jsx (Estado Central)</div>
+            <div class="flow-arrow">▼ props (guesses)</div>
+            <div class="flow-box">Board.jsx (Gerenciador da Grade)</div>
+            <div class="flow-arrow">▼ props (guess string)</div>
+            <div class="flow-box">Row.jsx (Computador da Linha)</div>
+            <div class="flow-arrow">▼ props (char / status)</div>
+            <div class="flow-box" style="background-color: var(--react-blue); color: white;">Tile.jsx (Elemento Atômico)</div>
+        </div>
+
+        <ul>
+            <li><strong>Tile:</strong> O bloco atômico visual que renderiza um único caractere por vez.</li>
+            <li><strong>Row:</strong> O agrupamento horizontal rígido de exatamente 5 Tiles.</li>
+            <li><strong>Board:</strong> A matriz vertical completa composta por 6 Rows estruturais.</li>
+        </ul>
+
+        <h3>Criando o Componente Tile</h3>
+        <p>O componente <code>Tile</code> é uma função pura que aceita duas propriedades do seu componente pai: a letra (<code>letter</code>) e a cor de verificação (<code>status</code>).</p>
+
+        <div class="diagram-container">
+            <div class="diagram-title">Diagrama 2: Estados e Classes CSS do Tile</div>
+            <div class="tiles-showcase">
+                <div class="tile-item">
+                    <div class="tile-box" style="background-color: var(--brand-green);">V</div>
+                    <span>correct</span>
+                </div>
+                <div class="tile-item">
+                    <div class="tile-box" style="background-color: var(--brand-yellow);">E</div>
+                    <span>present</span>
+                </div>
+                <div class="tile-item">
+                    <div class="tile-box" style="background-color: var(--brand-gray);">R</div>
+                    <span>absent</span>
+                </div>
+                <div class="tile-item">
+                    <div class="tile-box" style="border: 2px solid #565758; color: var(--text-primary);">O</div>
+                    <span>active</span>
+                </div>
+            </div>
+        </div>
+
+        <pre><code><span class="kw">function</span> <span class="fn">Tile</span>({ letter, status }) {
+  <span class="kw">let</span> tileClass = <span class="str">"tile"</span>;
+  
+  <span class="kw">if</span> (status === <span class="str">"correct"</span>) tileClass += <span class="str">" correct"</span>;
+  <span class="kw">if</span> (status === <span class="str">"present"</span>) tileClass += <span class="str">" present"</span>;
+  <span class="kw">if</span> (status === <span class="str">"absent"</span>) tileClass += <span class="str">" absent"</span>;
+  <span class="kw">if</span> (letter && !status) tileClass += <span class="str">" active"</span>;
+
+  <span class="kw">return</span> &lt;<span class="kw">div</span> <span class="fn">className</span>={tileClass}&gt;{letter}&lt;/<span class="kw">div</span>&gt;;
+}</code></pre>
+
+        <h2 id="estado">2. Elevando o Estado (Lifting State Up)</h2>
+        <p>No React, o fluxo de dados acontece de cima para baixo. Se deixarmos que cada linha (<code>Row</code>) controle seus próprios caracteres de forma isolada, o componente centralizador não conseguirá computar se o jogador atingiu o limite de tentativas.</p>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">Diagrama 3: Divisão Estrutural da Matriz de Tentativas</div>
+            <div class="matrix-box">
+                <div class="matrix-row">
+                    <div class="matrix-desc">guesses[0] (Histórico)</div>
+                    <div class="matrix-cells">
+                        <div class="matrix-cell" style="background-color: var(--brand-gray);"></div>
+                        <div class="matrix-cell" style="background-color: var(--brand-gray);"></div>
+                        <div class="matrix-cell" style="background-color: var(--brand-yellow);"></div>
+                        <div class="matrix-cell" style="background-color: var(--brand-gray);"></div>
+                        <div class="matrix-cell" style="background-color: var(--brand-gray);"></div>
+                    </div>
+                </div>
+                <div class="matrix-row">
+                    <div class="matrix-desc" style="color: var(--react-blue); font-weight: bold;">currentGuess (Ativa)</div>
+                    <div class="matrix-cells">
+                        <div class="matrix-cell" style="border-color: #565758;"></div>
+                        <div class="matrix-cell" style="border-color: #565758;"></div>
+                        <div class="matrix-cell"></div>
+                        <div class="matrix-cell"></div>
+                        <div class="matrix-cell"></div>
+                    </div>
+                </div>
+                <div class="matrix-row"><div class="matrix-desc">Linha Vazia 3</div><div class="matrix-cells"><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div></div></div>
+                <div class="matrix-row"><div class="matrix-desc">Linha Vazia 4</div><div class="matrix-cells"><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div></div></div>
+                <div class="matrix-row"><div class="matrix-desc">Linha Vazia 5</div><div class="matrix-cells"><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div></div></div>
+                <div class="matrix-row"><div class="matrix-desc">Linha Vazia 6</div><div class="matrix-cells"><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div><div class="matrix-cell"></div></div></div>
+            </div>
+        </div>
+
+        <p>Para resolver isso, nós <strong>elevamos o estado</strong> para o componente pai mais próximo (<code>Game</code>). Ele controlará o histórico através de dois estados essenciais:</p>
+
+        <pre><code><span class="kw">const</span> [guesses, setGuesses] = <span class="fn">useState</span>([]);        <span class="cm">// Array de strings submetidas</span>
+<span class="kw">const</span> [currentGuess, setCurrentGuess] = <span class="fn">useState</span>(<span class="str">""</span>); <span class="cm">// Palavra sendo digitada na linha ativa</span></code></pre>
+
+        <h2 id="interacoes">3. Capturando Eventos Globais</h2>
+        <p>Para permitir que o jogador digite usando qualquer tecla do teclado físico, precisamos acoplar um escutador de eventos global na janela (<code>window</code>). Executamos isso mapeando o ciclo de vida por meio do Hook <code>useEffect</code>:</p>
+
+        <pre><code><span class="fn">useEffect</span>(() => {
+  <span class="kw">function</span> <span class="fn">handleKeyDown</span>(event) {
+    <span class="kw">const</span> key = event.key.<span class="fn">toUpperCase</span>();
+
+    <span class="kw">if</span> (key === <span class="str">"ENTER"</span>) {
+      <span class="kw">if</span> (currentGuess.length === <span class="str">5</span>) {
+        <span class="fn">setGuesses</span>([...guesses, currentGuess]);
+        <span class="fn">setCurrentGuess</span>(<span class="str">""</span>);
+      }
+      <span class="kw">return</span>;
+    }
+
+    <span class="kw">if</span> (key === <span class="str">"BACKSPACE"</span>) {
+      <span class="fn">setCurrentGuess</span>((prev) => prev.<span class="fn">slice</span>(<span class="str">0</span>, <span class="str">-1</span>));
+      <span class="kw">return</span>;
+    }
+
+    <span class="kw">if</span> (<span class="kw">/^[A-Z]$/</span>.<span class="fn">test</span>(key) && currentGuess.length < <span class="str">5</span>) {
+      <span class="fn">setCurrentGuess</span>((prev) => prev + key);
+    }
+  }
+
+  window.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, handleKeyDown);
+  <span class="kw">return</span> () => window.<span class="fn">removeEventListener</span>(<span class="str">"keydown"</span>, handleKeyDown);
+}, [currentGuess, guesses]);</code></pre>
+
+        <h2 id="validacao">4. O Algoritmo de Validação das Cores</h2>
+        <div class="callout" style="background-color: var(--bg-docs); border-left-color: var(--text-secondary);">
+            <h4>Deep Dive: Evitando o Bug de Letras Duplicadas</h4>
+            <p style="margin: 0; font-size: 0.95rem;">Se a palavra certa for <strong>TERMO</strong> (apenas um 'E') e o usuário chutar <strong>FEVRE</strong>, apenas o primeiro 'E' deve pintar de amarelo. O segundo deve ficar cinza. Usamos um algoritmo de duas passadas para resolver isso de forma precisa.</p>
+        </div>
+
+        <div class="diagram-container">
+            <div class="diagram-title">Diagrama 4: Validação "TESTE" contra Solução "TERMO"</div>
+            <div class="map-grid">
+                <div class="map-col"><span style="font-family: monospace;">Solução:</span><div class="map-square" style="background-color: var(--border-color);">T</div><span>▼</span><div class="map-square" style="background-color: var(--brand-green); color: white;">T</div><span>Correct</span></div>
+                <div class="map-col"><span style="font-family: monospace;">Solução:</span><div class="map-square" style="background-color: var(--border-color);">E</div><span>▼</span><div class="map-square" style="background-color: var(--brand-green); color: white;">E</div><span>Correct</span></div>
+                <div class="map-col"><span style="font-family: monospace;">Solução:</span><div class="map-square" style="background-color: var(--border-color);">M</div><span>▼</span><div class="map-square" style="background-color: var(--brand-gray); color: white;">S</div><span>Absent</span></div>
+                <div class="map-col"><span style="font-family: monospace;">Solução:</span><div class="map-square" style="background-color: var(--border-color);">R</div><span>▼</span><div class="map-square" style="background-color: var(--brand-gray); color: white;">T</div><span>Absent*</span></div>
+                <div class="map-col"><span style="font-family: monospace;">Solução:</span><div class="map-square" style="background-color: var(--border-color);">O</div><span>▼</span><div class="map-square" style="background-color: var(--brand-gray); color: white;">E</div><span>Absent*</span></div>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 10px; text-align: center;">*O segundo T e E viram cinza (Absent) porque os únicos 'T' e 'E' da solução já foram consumidos nas posições exatas!</span>
+        </div>
+
+        <p>Abaixo está a lógica da segunda passada estruturada dentro do componente <code>Row</code>:</p>
+
+        <pre><code><span class="cm">// Passada 1: Marca os acertos exatos (Verdes)</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="str">0</span>; i < <span class="str">5</span>; i++) {
+  <span class="kw">if</span> (guess[i] === solution[i]) {
+    statuses[i] = <span class="str">"correct"</span>;
+    solutionLetters[i] = <span class="kw">null</span>;
+  }
+}
+
+<span class="cm">// Passada 2: Marca letters deslocadas (Amarelos)</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="str">0</span>; i < <span class="str">5</span>; i++) {
+  <span class="kw">if</span> (statuses[i] === <span class="str">""</span>) {
+    <span class="kw">const</span> indexInSolution = solutionLetters.<span class="fn">indexOf</span>(guess[i]);
+    <span class="kw">if</span> (indexInSolution !== <span class="str">-1</span>) {
+      statuses[i] = <span class="str">"present"</span>;
+      solutionLetters[indexInSolution] = <span class="kw">null</span>;
+    } <span class="kw">else </span>{
+      statuses[i] = <span class="str">"absent"</span>;
+    }
+  }
+}</code></pre>
+
+        <h2 id="css">5. Estilizando com CSS Reativo</h2>
+        <p>No React, a renderização visual é inteiramente orientada por dados. À medida que o estado muda no arquivo JavaScript, o HTML recebe novas classes associadas que disparam transições e cores específicas no arquivo CSS externo.</p>
+
+        <div class="diagram-container">
+            <div class="diagram-title">Diagrama 5: Junção entre String de Estado e Seletor CSS</div>
+            <div class="css-anatomy">
+                <span style="color: var(--react-blue); font-weight: bold;">.tile</span>
+                <span style="color: var(--text-secondary);">+</span>
+                <span style="color: #f43f5e; font-weight: bold;">.correct</span>
+                <span style="color: var(--text-secondary);">&rarr;</span>
+                <span style="background-color: var(--brand-green); color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Fundo Verde</span>
+            </div>
+        </div>
+
+        <p>Abaixo está a folha de estilo definitiva (<code>src/index.css</code>) que dá vida à malha de blocos do jogo:</p>
+
+        <pre><code><span class="cm">/* Configuração Estrutural da Grid */</span>
+<span class="kw">.board</span> {
+  <span class="fn">display</span>: flex;
+  <span class="fn">flex-direction</span>: column;
+  <span class="fn">gap</span>: 6px;
+}
+
+<span class="kw">.row</span> {
+  <span class="fn">display</span>: flex;
+  <span class="fn">gap</span>: 6px;
+}
+
+<span class="cm">/* Estilo Base de Cada Bloco de Letras */</span>
+<span class="kw">.tile</span> {
+  <span class="fn">width</span>: 58px;
+  <span class="fn">height</span>: 58px;
+  <span class="fn">border</span>: 2px solid #3a3a3c;
+  <span class="fn">display</span>: flex;
+  <span class="fn">align-items</span>: center;
+  <span class="fn">justify-content</span>: center;
+  <span class="fn">font-size</span>: 1.8rem;
+  <span class="fn">font-weight</span>: bold;
+  <span class="fn">text-transform</span>: uppercase;
+  <span class="fn">transition</span>: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+<span class="cm">/* Classes Reativas de Estado Controladas pelo React */</span>
+<span class="kw">.tile.active</span> {
+  <span class="fn">border-color</span>: #565758;
+}
+
+<span class="kw">.tile.correct</span> {
+  <span class="fn">background-color</span>: #3aa394;
+  <span class="fn">border-color</span>: #3aa394;
+}
+
+<span class="kw">.tile.present</span> {
+  <span class="fn">background-color</span>: #d3ad69;
+  <span class="fn">border-color</span>: #d3ad69;
+}
+
+<span class="kw">.tile.absent</span> {
+  <span class="fn">background-color</span>: #3a3a3c;
+  <span class="fn">border-color</span>: #3a3a3c;
+}</code></pre>
+
+        <p>Com essa arquitetura unificada, lógica algorítmica e recursos visuais consolidados, seu guia de estudos está completo e idêntico à documentação oficial!</p>
+    </main>
+
+</body>
+</html>

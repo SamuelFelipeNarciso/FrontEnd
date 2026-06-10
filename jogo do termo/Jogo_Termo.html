@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clone do Termo - React</title>
+    
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* Estilização Geral da Página */
+        body {
+            margin: 0;
+            background-color: #121213;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: 6px;
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+
+        /* Estrutura da Grade (Matriz) */
+        .board {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .row {
+            display: flex;
+            gap: 6px;
+        }
+
+        /* Quadrados Individuais (Tiles) */
+        .tile {
+            width: 58px;
+            height: 58px;
+            border: 2px solid #3a3a3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-sizing: border-box;
+            user-select: none;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Estados Visuais Gerenciados pelo React */
+        .tile.active {
+            border-color: #565758;
+        }
+
+        .tile.correct {
+            background-color: #3aa394;
+            border-color: #3aa394;
+        }
+
+        .tile.present {
+            background-color: #d3ad69;
+            border-color: #d3ad69;
+        }
+
+        .tile.absent {
+            background-color: #3a3a3c;
+            border-color: #3a3a3c;
+        }
+
+        /* Mensagens e Botões de Feedback */
+        .status-msg {
+            font-size: 1.1rem;
+            color: #a1a1aa;
+            margin-top: 10px;
+            font-weight: 500;
+            text-align: center;
+            min-height: 24px;
+        }
+
+        .reset-btn {
+            background-color: #3aa394;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .reset-btn:hover {
+            background-color: #2d8276;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Configurações Globais do Jogo
+        const SOLUTION = "TERMO";
+        const WORD_LENGTH = 5;
+        const MAX_GUESSES = 6;
+
+        // 1. COMPONENTE TILE
+        function Tile({ letter, status }) {
+            let tileClass = "tile";
+            if (status === "correct") tileClass += " correct";
+            if (status === "present") tileClass += " present";
+            if (status === "absent") tileClass += " absent";
+            if (letter && !status) tileClass += " active";
+
+            return <div className={tileClass}>{letter}</div>;
+        }
+
+        // 2. COMPONENTE ROW (Contém o algoritmo de validação de cores)
+        function Row({ guess = "", isSubmitted }) {
+            let statuses = Array(WORD_LENGTH).fill("");
+            let solutionLetters = SOLUTION.split("");
+
+            if (isSubmitted) {
+                // Passada 1: Identifica letras certas no lugar certo (Verde)
+                for (let i = 0; i < WORD_LENGTH; i++) {
+                    if (guess[i] === SOLUTION[i]) {
+                        statuses[i] = "correct";
+                        solutionLetters[i] = null; // Consome a letra para a próxima etapa
+                    }
+                }
+
+                // Passada 2: Identifica letras existentes no lugar errado (Amarelo)
+                for (let i = 0; i < WORD_LENGTH; i++) {
+                    if (statuses[i] === "") {
+                        const indexInSolution = solutionLetters.indexOf(guess[i]);
+                        if (indexInSolution !== -1) {
+                            statuses[i] = "present";
+                            solutionLetters[indexInSolution] = null;
+                        } else {
+                            statuses[i] = "absent";
+                        }
+                    }
+                }
+            }
+
+            return (
+                <div className="row">
+                    {Array(WORD_LENGTH).fill(null).map((_, i) => (
+                        <Tile key={i} letter={guess[i] || ""} status={statuses[i]} />
+                    ))}
+                </div>
+            );
+        }
+
+        // 3. COMPONENTE BOARD
+        function Board({ guesses, currentGuess }) {
+            return (
+                <div className="board">
+                    {Array(MAX_GUESSES).fill(null).map((_, i) => {
+                        if (i < guesses.length) {
+                            return <Row key={i} guess={guesses[i]} isSubmitted={true} />;
+                        }
+                        if (i === guesses.length) {
+                            return <Row key={i} guess={currentGuess} isSubmitted={false} />;
+                        }
+                        return <Row key={i} guess="" isSubmitted={false} />;
+                    })}
+                </div>
+            );
+        }
+
+        // 4. COMPONENTE PRINCIPAL (GAME CONTROL)
+        function TermoGame() {
+            const [guesses, setGuesses] = useState([]);
+            const [currentGuess, setCurrentGuess] = useState("");
+            const [gameResult, setGameResult] = useState(null); // 'win', 'lose' ou null
+            const [statusMessage, setStatusMessage] = useState("Digite uma palavra de 5 letras e aperte Enter");
+
+            useEffect(() => {
+                if (gameResult) return; // Se o jogo acabou, ignora o teclado
+
+                function handleKeyDown(event) {
+                    const key = event.key.toUpperCase();
+
+                    if (key === "ENTER") {
+                        if (currentGuess.length !== WORD_LENGTH) {
+                            setStatusMessage("⚠️ A palavra precisa ter exatamente 5 letras!");
+                            return;
+                        }
+                        
+                        const nextGuesses = [...guesses, currentGuess];
+                        setGuesses(nextGuesses);
+                        setCurrentGuess("");
+                        setStatusMessage("Digite uma palavra de 5 letras e aperte Enter");
+
+                        if (currentGuess === SOLUTION) {
+                            setGameResult("win");
+                            setStatusMessage("🎉 Incrível! Você acertou a palavra secreta!");
+                            return;
+                        }
+                        if (nextGuesses.length === MAX_GUESSES) {
+                            setGameResult("lose");
+                            setStatusMessage(`😢 Fim de jogo! A palavra era: ${SOLUTION}`);
+                        }
+                        return;
+                    }
+
+                    if (key === "BACKSPACE") {
+                        setStatusMessage("Digite uma palavra de 5 letras e aperte Enter");
+                        setCurrentGuess((prev) => prev.slice(0, -1));
+                        return;
+                    }
+
+                    // Aceita apenas uma única letra de A a Z
+                    if (/^[A-Z]$/.test(key) && currentGuess.length < WORD_LENGTH) {
+                        setStatusMessage("Digite uma palavra de 5 letras e aperte Enter");
+                        setCurrentGuess((prev) => prev + key);
+                    }
+                }
+
+                window.addEventListener("keydown", handleKeyDown);
+                
+                // Limpeza do listener para evitar bugs de repetição
+                return () => window.removeEventListener("keydown", handleKeyDown);
+            }, [currentGuess, guesses, gameResult]);
+
+            return (
+                <div className="game-container">
+                    <h1>TERMO</h1>
+                    
+                    <Board guesses={guesses} currentGuess={currentGuess} />
+                    
+                    <p className="status-msg">{statusMessage}</p>
+                    
+                    {gameResult && (
+                        <button className="reset-btn" onClick={() => window.location.reload()}>
+                            Jogar Novamente
+                        </button>
+                    )}
+                </div>
+            );
+        }
+
+        // Inicializa a aplicação React na página
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<TermoGame />);
+    </script>
+</body>
+</html>
